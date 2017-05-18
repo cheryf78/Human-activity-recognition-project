@@ -139,23 +139,23 @@ $(document).ready(function () {
 </ul>
 </div>
 
-<div id="goal-of-the-project" class="section level3">
-<h3>Goal of the project</h3>
+<div id="goal-of-the-project" class="section level2">
+<h2>Goal of the project</h2>
 <p>The goal of your project is to predict the manner in which they did the exercise. This is the “classe” variable in the training set. You may use any of the other variables to predict with. You should create a report describing how you built your model, how you used cross validation, what you think the expected out of sample error is, and why you made the choices you did.</p>
 </div>
-<div id="background" class="section level3">
-<h3>Background</h3>
+<div id="background" class="section level2">
+<h2>Background</h2>
 <p>Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement - a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. More information is available from the website here: <a href="http://groupware.les.inf.puc-rio.br/har" class="uri">http://groupware.les.inf.puc-rio.br/har</a> (see the section on the Weight Lifting Exercise Dataset).</p>
 </div>
-<div id="data-sources" class="section level3">
-<h3>Data sources</h3>
+<div id="data-sources" class="section level2">
+<h2>Data sources</h2>
 <p>The training data for this project are available here:</p>
 <p><a href="https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv" class="uri">https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv</a></p>
 <p>The test data are available here:</p>
 <p><a href="https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv" class="uri">https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv</a></p>
 </div>
-<div id="loading-packages" class="section level3">
-<h3>Loading packages</h3>
+<div id="loading-packages" class="section level2">
+<h2>Loading packages</h2>
 <pre class="r"><code>library(caret)</code></pre>
 <pre><code>## Loading required package: lattice</code></pre>
 <pre><code>## Loading required package: ggplot2</code></pre>
@@ -166,8 +166,8 @@ $(document).ready(function () {
 ## Entrez 'rattle()' pour secouer, faire vibrer, et faire défiler vos données.</code></pre>
 <pre class="r"><code>library(corrplot)</code></pre>
 </div>
-<div id="loading-and-reading-data" class="section level3">
-<h3>Loading and reading data</h3>
+<div id="loading-and-reading-data" class="section level2">
+<h2>Loading and reading data</h2>
 <pre class="r"><code>raw.training &lt;- read.table(&quot;./pml-training.csv&quot;,na.strings=c(&quot;NA&quot;,&quot;&quot;), sep=&quot;,&quot;, header=T)
 raw.testing &lt;- read.table(&quot;./pml-testing.csv&quot;,na.strings=c(&quot;NA&quot;,&quot;&quot;), sep=&quot;,&quot;, header=T)
 
@@ -280,8 +280,8 @@ dim(raw.training)</code></pre>
 ##   [list output truncated]</code></pre>
 <p>The training data set contains 159 variables/predictors and 19622 obsertvations. The test data contains 159 variables/predictors and 20 obsertvations. The outcome to predict here is the variable <strong>classe</strong>.</p>
 </div>
-<div id="cleaning-data" class="section level3">
-<h3>Cleaning data</h3>
+<div id="cleaning-data" class="section level2">
+<h2>Cleaning data</h2>
 <p>Firstly, we will clean our data set by removing some meaningless variables. We know that the data which are useful are the data from accelerometers on the belt, forearm, arm and dumbell. So we’ll keep only these measurements for our model prediction.</p>
 <pre class="r"><code>  VarTokeep &lt;- grep(&quot;belt|arm|dumbbell|classe&quot;,colnames(raw.training))
   cleaned.training.1 &lt;- raw.training[,VarTokeep]
@@ -417,8 +417,8 @@ rm(cleaned.testing.2)</code></pre>
 <pre class="r"><code>testing &lt;- testing[,-53]</code></pre>
 <p>There’s now 52 variables/predictors for both training and test data set.</p>
 </div>
-<div id="data-partition" class="section level3">
-<h3>Data partition</h3>
+<div id="data-partition" class="section level2">
+<h2>Data partition</h2>
 <p>In the aim to avoid overfitting and a biased out-of-sample error, we’ll create a validation set from the cleaned training data on which, we’ll evaluate the model.</p>
 <pre class="r"><code>set.seed(12345)
 index &lt;- createDataPartition(y=cleaned.training.2$classe, p=.7, list = F)
@@ -430,8 +430,8 @@ validation &lt;- cleaned.training.2[-index,] </code></pre>
 <pre><code>## [1] 5885   53</code></pre>
 <pre class="r"><code>outcomeIndex &lt;- which(colnames(training)==&quot;classe&quot;)</code></pre>
 </div>
-<div id="data-analysis" class="section level3">
-<h3>Data analysis</h3>
+<div id="data-analysis" class="section level2">
+<h2>Data analysis</h2>
 <ul>
 <li>distribution of the outcome</li>
 </ul>
@@ -480,8 +480,8 @@ validation &lt;- cleaned.training.2[-index,] </code></pre>
 <li>get high uncorrelated (orthogonal) predictors</li>
 </ul>
 </div>
-<div id="preprocessing" class="section level3">
-<h3>Preprocessing</h3>
+<div id="preprocessing" class="section level2">
+<h2>Preprocessing</h2>
 <pre class="r"><code>#perform PCA on the training and validation data set 
 pcaObj.1 &lt;- preProcess(training[,-outcomeIndex], method = &quot;pca&quot;, thresh = .95, pcaComp = 27)
 training.pca &lt;- predict(pcaObj.1, newdata=training[,-outcomeIndex])
@@ -528,8 +528,8 @@ rm(pcaObj.2)</code></pre>
 ##  $ PC27  : num  -0.907 -0.912 -0.897 -0.926 -0.883 ...
 ##  $ classe: Factor w/ 5 levels &quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
 </div>
-<div id="training-data-and-model-selection" class="section level3">
-<h3>Training data and model selection</h3>
+<div id="training-data-and-model-selection" class="section level2">
+<h2>Training data and model selection</h2>
 <p>Now we’ll perform machine learning algorithms on 3 models :</p>
 <p>** The model with PCA processing, the model without **</p>
 <ul>
@@ -548,7 +548,7 @@ model.rf.1 &lt;- train(classe~., data=training, method=&quot;rf&quot;, trControl
 ##     margin</code></pre>
 <pre class="r"><code>proc.time() - ptm</code></pre>
 <pre><code>##    user  system elapsed 
-##  124.80    0.63  128.47</code></pre>
+##  112.23    0.59  113.88</code></pre>
 <ul>
 <li>Random forest with the PCA processing performed on dataset</li>
 </ul>
@@ -557,7 +557,7 @@ ptm &lt;- proc.time()
 model.rf.2 &lt;- train(classe~., data=training.pca, method=&quot;rf&quot;, trControl = trainControl(method = &quot;oob&quot;), ntree = 250)
 proc.time() - ptm</code></pre>
 <pre><code>##    user  system elapsed 
-##   73.09    0.52   74.43</code></pre>
+##   67.31    0.53   68.25</code></pre>
 <pre class="r"><code>model.rf.1$finalModel</code></pre>
 <pre><code>## 
 ## Call:
@@ -591,8 +591,8 @@ proc.time() - ptm</code></pre>
 ## D    5    2   94 2144    7  0.04795737
 ## E    3   21   15   14 2472  0.02099010</code></pre>
 </div>
-<div id="evaluation-on-validation-set-and-out-of-sample-error" class="section level3">
-<h3>Evaluation on validation set and out-of-sample error</h3>
+<div id="evaluation-on-validation-set-and-out-of-sample-error" class="section level2">
+<h2>Evaluation on validation set and out-of-sample error</h2>
 <pre class="r"><code>pred.1 &lt;- predict(model.rf.1, newdata = validation)
 confusionMatrix(pred.1, validation$classe)</code></pre>
 <pre><code>## Confusion Matrix and Statistics
