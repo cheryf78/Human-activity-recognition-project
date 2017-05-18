@@ -3,15 +3,15 @@ Cheryf LALEYE
 16 mai 2017  
 
 
-###Goal of the project
+## Goal of the project
 
 The goal of your project is to predict the manner in which they did the exercise. This is the "classe" variable in the training set. You may use any of the other variables to predict with. You should create a report describing how you built your model, how you used cross validation, what you think the expected out of sample error is, and why you made the choices you did.
 
-###Background
+## Background
 
 Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement - a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. More information is available from the website here: http://groupware.les.inf.puc-rio.br/har (see the section on the Weight Lifting Exercise Dataset).
 
-###Data sources
+## Data sources
 
 The training data for this project are available here:
 
@@ -22,7 +22,7 @@ The test data are available here:
 https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv
 
 
-###Loading packages 
+## Loading packages 
 
 
 ```r
@@ -55,7 +55,7 @@ library(rattle)
 library(corrplot)
 ```
 
-###Loading and reading data
+## Loading and reading data
 
 
 ```r
@@ -192,7 +192,7 @@ str(raw.training)
 
 The training data set contains 159 variables/predictors and 19622 obsertvations. The test data contains 159 variables/predictors and 20 obsertvations. The outcome to predict here is the variable **classe**.
 
-###Cleaning data 
+## Cleaning data 
 
 Firstly, we will clean our data set by removing some meaningless variables. We know that the data which are useful are the data from accelerometers on the belt, forearm, arm and dumbell. So we'll keep only these measurements for our model prediction.
 
@@ -381,7 +381,7 @@ testing <- testing[,-53]
 
 There's now 52 variables/predictors for both training and test data set.
 
-###Data partition
+## Data partition
 
 In the aim to avoid overfitting and a biased out-of-sample error, we'll create a validation set from the cleaned training  data on which, we'll evaluate the model.
 
@@ -416,7 +416,7 @@ outcomeIndex <- which(colnames(training)=="classe")
 ```
 
 
-###Data analysis 
+## Data analysis 
 
 * distribution of the outcome
 
@@ -490,7 +490,7 @@ So maybe, we'll need to perform PCA processing in order to :
 * reduce number of predictors
 * get high uncorrelated (orthogonal) predictors
 
-###Preprocessing
+## Preprocessing
 
 
 ```r
@@ -563,7 +563,7 @@ str(training.pca)
 ```
 
 
-###Training data and model selection
+## Training data and model selection
 
 Now we'll perform machine learning algorithms on 3 models :
 
@@ -607,7 +607,7 @@ proc.time() - ptm
 
 ```
 ##    user  system elapsed 
-##  124.33    0.45  128.70
+##  112.23    0.59  113.88
 ```
 
 * Random forest with the PCA processing performed on dataset
@@ -622,7 +622,7 @@ proc.time() - ptm
 
 ```
 ##    user  system elapsed 
-##   67.89    0.50   68.57
+##   67.31    0.53   68.25
 ```
 
 
@@ -672,7 +672,7 @@ model.rf.2$finalModel
 ## E    3   21   15   14 2472  0.02099010
 ```
 
-###Evaluation on validation set and out-of-sample error
+## Evaluation on validation set and out-of-sample error
 
 
 ```r
@@ -768,7 +768,7 @@ varImpPlot(model.rf.1$finalModel, cex=0.7, pch=16, main="Var importance - r.fore
 
 ![](Final_Project_PML_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
 
-##Prediction on the testing data 
+## Prediction on the testing data 
 
 
 ```r
